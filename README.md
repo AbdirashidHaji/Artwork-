@@ -16,10 +16,8 @@ Coil: Image loading library for Compose.
 Installation
 Clone the repository:
 
-bash
-Copy code
-git clone https://github.com/yourusername/myartgalleryapp.git
-Open the project in Android Studio.
+
+
 
 Build and run the app on an Android device or emulator.
 
