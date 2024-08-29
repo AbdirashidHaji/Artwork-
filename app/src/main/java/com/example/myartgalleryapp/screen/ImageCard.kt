@@ -10,23 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.myartgalleryapp.model.ImageData
 
 @Composable
-fun ImageCard(
-    imageData: ImageData,
-    onPrevious: () -> Unit,
-    onNext: () -> Unit
-) {
+fun ImageCard(imageData: ImageData, onPrevious: () -> Unit, onNext: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
-        elevation = CardDefaults.cardElevation(8.dp),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(
@@ -34,14 +31,27 @@ fun ImageCard(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.background(Color(0xFFE0E0E0))
         ) {
-            Image(
-                painter = rememberImagePainter(data = imageData.imageUrl),
-                contentDescription = imageData.title,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(3f / 4f),
-                contentScale = ContentScale.Crop
-            )
+            if (imageData.imageResId != null) {
+                // Load image from resources
+                Image(
+                    painter = painterResource(id = imageData.imageResId),
+                    contentDescription = imageData.title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(3f / 4f),
+                    contentScale = ContentScale.Crop
+                )
+            } else if (imageData.imageUrl != null) {
+                // Load image from URL
+                Image(
+                    painter = rememberImagePainter(data = imageData.imageUrl),
+                    contentDescription = imageData.title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(3f / 4f),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = imageData.title,

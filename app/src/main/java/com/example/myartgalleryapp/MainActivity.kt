@@ -13,9 +13,9 @@ import com.example.myartgalleryapp.ui.theme.MyArtGalleryAppTheme
 
 class MainActivity : ComponentActivity() {
     private val sampleImages = listOf(
-        ImageData("Starry Night", "Vincent van Gogh", "1889", "https://example.com/starry_night.jpg"),
-        ImageData("Mona Lisa", "Leonardo da Vinci", "1503", "https://example.com/mona_lisa.jpg"),
-        ImageData("The Persistence of Memory", "Salvador Dalí", "1931", "https://example.com/persistence_of_memory.jpg")
+        ImageData("Starry Night", "Vincent van Gogh", "1889", imageResId = R.drawable.ist_logo),
+        ImageData("Mona Lisa", "Leonardo da Vinci", "1503", imageResId = R.drawable.fireworks),
+        ImageData("The Persistence of Memory", "Salvador Dalí", "1931", imageResId = R.drawable.cake_2338813_1280)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +24,19 @@ class MainActivity : ComponentActivity() {
             MyArtGalleryAppTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val currentIndex = remember { mutableStateOf(0) }
-                    GalleryScreen(images = sampleImages, currentIndex = currentIndex)
+                    GalleryScreen(
+                        images = sampleImages,
+                        currentIndex = currentIndex.value,
+                        onPrevious = {
+                            currentIndex.value = (currentIndex.value - 1 + sampleImages.size) % sampleImages.size
+                        },
+                        onNext = {
+                            currentIndex.value = (currentIndex.value + 1) % sampleImages.size
+                        }
+                    )
                 }
             }
         }
     }
 }
+
